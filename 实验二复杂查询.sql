@@ -88,14 +88,14 @@ order by Salary.income-Salary.outcome asc;
 --2004  	王军      	1979-05-12 00:00:00.000	0	山东                	475008	5687967     	wj@henu.edu.cn                	2  	3300
 
 --f)	求各部门的雇员数
-/*select Departments.dept_name,Employee.Employee_name
-from Departments,Employee
-where Departments.dept_id=Employee.dept_id and Employee.Employee_id in
-(select count(distinct Employee.Employee_name)
+select dept_id,count(Employee_id) as num
 from Employee
-)
-group by Departments.dept_name,Employee.Employee_name
-*/
+group by dept_id;
+
+--dept_id	num
+--1  	4
+--2  	4
+--3  	3
 
 --g)	找出所有在财务部和人力资源部工作的雇员的编号
 select Departments.dept_name,Employee.Employee_id
@@ -144,8 +144,30 @@ where Employee.dept_id=Departments.dept_id and Salary.Employee_id=Employee.Emplo
 --2544.44444444444
 
 --k)	查找比所有财务部的雇员工资都高的雇员的姓名
+select Employee.Employee_name
+from Employee,Salary,Departments
+where Departments.dept_id=Employee.dept_id and Employee.Employee_id=Salary.Employee_id and Salary.income-Salary.outcome>=all
+(select Salary.income-Salary.outcome
+from Salary,Employee,Departments
+where Departments.dept_name='财务部' and Departments.dept_id=Employee.dept_id and Employee.Employee_id=Salary.Employee_id);
+
+--Employee_name
+--周宏      
+--王军      
+--王霞     
 
 --l)	查找财务部年龄不低于研发部所有雇员年龄的雇员的姓名
+select Employee.Employee_name
+from Employee,Departments
+where Employee.dept_id=Departments.dept_id and Departments.dept_name='财务部' and Employee.Employee_birth<=all
+(select Employee.Employee_birth
+from Departments,Employee
+where dept_name='研发部' and Employee.dept_id=Departments.dept_id
+);
+
+--Employee_name
+--李勇      
+--刘晨
 
 --m)	查找在财务部工作的雇员的情况
 select Employee.*

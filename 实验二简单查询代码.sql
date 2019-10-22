@@ -57,18 +57,18 @@ where Employee_sex='1';
 select Employee_id,income-outcome as realized_income
 from Salary;
 
---realized_income
---2100
---2300
---2500
---2900
---2400
---2000
---2300
---3300
---2200
---2300
---3200
+--Employee_id	realized_income
+--1001  	2100
+--1002  	2300
+--1003  	2500
+--1004  	2900
+--2001  	2400
+--2002  	2000
+--2003  	2300
+--2004  	3300
+--3001  	2200
+--3002  	2300
+--3003  	3200
 
 --f) 找出所有姓王的雇员的部门号。
 select dept_id

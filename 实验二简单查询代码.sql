@@ -54,7 +54,7 @@ where Employee_sex='1';
 --湖南                	7556677  
 
 --e) 计算每个雇员的实际收入。
-select income-outcome as realized_income
+select Employee_id,income-outcome as realized_income
 from Salary;
 
 --realized_income

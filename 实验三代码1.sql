@@ -32,7 +32,7 @@ from quantity;
 
 --4．将P表中PNO值为p6的元组的color属性值改为绿，weight属性值改为60
 update Part
-set part_color='绿色',part_weight=60
+set part_color='绿',part_weight=60
 where Part_id='P6';
 
 --检验
@@ -60,20 +60,58 @@ select *
 from Supply;
 
 --7．将供应商s2为“一汽”工程项目所供应的零件数量修改为2000
-/*update Supply_Part_Project
+update Supply_Part_Project
 set Quantity=2000
 where Supply_id='S2' and Project_id in
 (
-select Project.Project_name
-from Project
-where Project.Project_name='一汽'
-);*/
+ select Project.Project_id
+ from Project
+ where Project.Project_name='一汽'
+);
 
+--检验
 select *
 from Supply_Part_Project;
+
 --8．将全部红色零件的颜色修改为浅红色
+update Part
+set part_color='浅红'
+where part_color='红';
+
+--检验
+select *
+from Part;
+
 --9．由s5供给j4的零件p6改为由s3供应
+update Supply_Part_Project
+set Supply_id='S3'
+where Supply_id='S5' and Project_id='J4' and Part_id='P6';
+
+--检验
+select *
+from Supply_Part_Project;
+
 --10．在SPJ表中新增一名为SDATE的属性列，对该表中的每一元组在SDATE属性列上填上实验当时的日期和时间
---11．删除所在城市为“广州”的供应商记录
---12．删除所有零件名称中第一个字为“螺”字的零件记录，并在供应情况表中删除相应的记录
+alter table Supply_Part_Project add Supply_date datetime;
+update Supply_Part_Project
+set Supply_date=getdate();
+
+--检验
+select*
+from Supply_Part_Project;
+
+--11．删除所在城市为“广州”的供应商记录、
+delete from Supply 
+where Supply_city ='广州';  
+
+--检验
+select*
+from Supply;
+
+/*--12．删除所有零件名称中第一个字为“螺”字的零件记录，并在供应情况表中删除相应的记录
+delete from Part,Supply
+where Part.Part_name='螺%' and Part.Part_id=
+
 --13．删除s3和s4两供应商为“三建”工程供应“螺母”或“螺丝刀”零件的相应供应情况数据信息
+delete from Supply_Part_Project
+where Supply_id='S3' and Supply_id='S4' and */

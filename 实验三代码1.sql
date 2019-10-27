@@ -108,10 +108,31 @@ where Supply_city ='广州';
 select*
 from Supply;
 
-/*--12．删除所有零件名称中第一个字为“螺”字的零件记录，并在供应情况表中删除相应的记录
-delete from Part,Supply
-where Part.Part_name='螺%' and Part.Part_id=
+--12．删除所有零件名称中第一个字为“螺”字的零件记录，并在供应情况表中删除相应的记录
+select *
+from Part;
+select *
+from Supply;
 
---13．删除s3和s4两供应商为“三建”工程供应“螺母”或“螺丝刀”零件的相应供应情况数据信息
+--delete from Part,Supply_Part_Project using Part,Supply,Supply_Part_Project
+--where Part.Part_ id=Supply_Part_Project.Part_id and Supply.Supply_id=Supply_Part_Project_id and Part.Part_id in
+--(
+ --select Part_name
+ --from Part
+ --where Part_name='螺_' 
+--)
 delete from Supply_Part_Project
-where Supply_id='S3' and Supply_id='S4' and */
+where Part_id in
+(
+ select Part_id
+ from Part
+ where Part_name like '螺%' 
+)
+delete from Part
+where Part_name like '螺%';
+--13．删除s3和s4两供应商为“三建”工程供应“螺母”或“螺丝刀”零件的相应供应情况数据信息
+delete 
+from Supply_Part_Project
+where (Supply_id='S3' or Supply_id='S4') 
+and Project_id=(select Project_id from Project where Project_name ='三建')
+and Part_id in (select Part_id from Part where Part_name='螺母'or Part_name='螺丝刀')
